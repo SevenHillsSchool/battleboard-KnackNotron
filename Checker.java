@@ -20,29 +20,29 @@ public class Checker {
 */
 
   public static int boundCheck(int pos, String rowOrCol, String startOrEnd) {
-    if (pos>8 || pos<0) {
+    if (pos>8 || pos<1) {
       int newPos=-1;
       do {
         Scanner scan = new Scanner(System.in);
-        System.out.print("\nValue must be between 0 and 8\n> ");
-        if (startOrEnd.toLower().substring(0,startOrEnd.length()).equals("start")) { //start
-          if (rowOrCol.toLower().substring(0,rowOrCol.length()).equals("row")) { //row
+        System.out.print("\nValue must be between 1 and 8\n> ");
+        if (startOrEnd.toLowerCase().substring(0,startOrEnd.length()).equals("start")) { //start
+          if (rowOrCol.toLowerCase().substring(0,rowOrCol.length()).equals("row")) { //row
             System.out.print("\nWhich row would you like your ship to start in?\n> ");
             newPos = scan.nextInt();
-          } else if (rowOrCol.toLower().substring(0,rowOrCol.length()).equals("column")) { //column
+          } else if (rowOrCol.toLowerCase().substring(0,rowOrCol.length()).equals("column")) { //column
             System.out.print("\nWhich column would you like your ship to start in?\n> ");
             newPos = scan.nextInt();
           }
-        } else if (startOrEnd.toLower().substring(0,startOrEnd.length()).equals("end")) { //end
-            if (rowOrCol.toLower().substring(0,rowOrCol.length()).equals("row")) { //row
+        } else if (startOrEnd.toLowerCase().substring(0,startOrEnd.length()).equals("end")) { //end
+            if (rowOrCol.toLowerCase().substring(0,rowOrCol.length()).equals("row")) { //row
               System.out.print("\nWhich row would you like your ship to end in?\n> ");
               newPos = scan.nextInt();
-            } else if (rowOrCol.toLower().substring(0,rowOrCol.length()).equals("column")) { //column
+            } else if (rowOrCol.toLowerCase().substring(0,rowOrCol.length()).equals("column")) { //column
               System.out.print("\nWhich column would you like your ship to end in?\n> ");
               newPos = scan.nextInt();
             }
         }
-      } while (newPos>8 || newPos<0);
+      } while (newPos>8 || newPos<1);
         return newPos;
     } else {
       return pos;

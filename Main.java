@@ -6,7 +6,7 @@
 public class Main {
 
 	public static void main ( String[] args) {
-			Battleboard board1 = new Battleboard();
+			Battleboard board1 = new Battleboard(1);
 			board1.printBoard();
 	}  //close main method
 

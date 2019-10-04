@@ -1,18 +1,20 @@
 import java.util.Scanner;
 
 public class Battleboard {
-  int[] row1 = {0,0,0,0,0,0,0,0};
-  int[] row2 = {0,0,0,0,0,0,0,0};
-  int[] row3 = {0,0,0,0,0,0,0,0};
-  int[] row4 = {0,0,0,0,0,0,0,0};
-  int[] row5 = {0,0,0,0,0,0,0,0};
-  int[] row6 = {0,0,0,0,0,0,0,0};
-  int[] row7 = {0,0,0,0,0,0,0,0};
-  int[] row8 = {0,0,0,0,0,0,0,0};
-  int[][] theBoard = {row1,row2,row3,row4,row5,row6,row7,row8};
+  int[] columns = {0,1,2,3,4,5,6,7,8};
+  int[] row1 = {1,0,0,0,0,0,0,0,0};
+  int[] row2 = {2,0,0,0,0,0,0,0,0};
+  int[] row3 = {3,0,0,0,0,0,0,0,0};
+  int[] row4 = {4,0,0,0,0,0,0,0,0};
+  int[] row5 = {5,0,0,0,0,0,0,0,0};
+  int[] row6 = {6,0,0,0,0,0,0,0,0};
+  int[] row7 = {7,0,0,0,0,0,0,0,0};
+  int[] row8 = {8,0,0,0,0,0,0,0,0};
+  int[][] theBoard = {columns,row1,row2,row3,row4,row5,row6,row7,row8};
+  int boardNum;
 
-  public Battleboard() {
-
+  public Battleboard(int board) {
+    boardNum = board;
   } //close Battleboard()
 
   public int getPos(int row, int col) {
@@ -26,12 +28,30 @@ public class Battleboard {
   public void printBoard() {
     for (int[] row : theBoard) {
       int printSpot=1;
-      for (int spot : row) {
-        if (printSpot<8) {
-          System.out.print(spot + "\t");
-          printSpot++;
-        } else {
-          System.out.println(spot);
+      if (row == theBoard[0]) {
+        for (int spot : row) {
+          if (printSpot==1) {
+            System.out.print(spot + "  \t");
+            printSpot++;
+          } else if (printSpot<9) {
+            System.out.print(spot + "\t");
+            printSpot++;
+          } else {
+            System.out.println(spot);
+          }
+        }
+        System.out.println("-|---------------------------------------------------------------");
+      } else {
+        for (int spot : row) {
+          if (printSpot==1) {
+            System.out.print(spot + "| \t");
+            printSpot++;
+          } else if (printSpot<9) {
+            System.out.print(spot + "\t");
+            printSpot++;
+          } else {
+            System.out.println(spot);
+          }
         }
       }
     }
@@ -45,15 +65,15 @@ public class Battleboard {
       System.out.print("Which ship would you like to place next?"+
         "\n\t1. Destroyer\n\t2. Submarine\n\t3. Cruiser\n\t4. Battlship\n\t5. Carrier\n> ");
       String whichShip = scan.next();
-      if (whichShip.toLower().substring(0, whichShip.length()).equals("destroyer")) {
+      if (whichShip.toLowerCase().substring(0, whichShip.length()).equals("destroyer")) {
         placeShipType2();
-      } else if (whichShip.toLower().substring(0, whichShip.length()).equals("submarine")) {
+      } else if (whichShip.toLowerCase().substring(0, whichShip.length()).equals("submarine")) {
         placeSub();
-      } else if (whichShip.toLower().substring(0, whichShip.length()).equals("cruiser")) {
+      } else if (whichShip.toLowerCase().substring(0, whichShip.length()).equals("cruiser")) {
         placeCruiser();
-      } else if (whichShip.toLower().substring(0, whichShip.length()).equals("battleship")) {
+      } else if (whichShip.toLowerCase().substring(0, whichShip.length()).equals("battleship")) {
         placeShipType4();
-      } else if (whichShip.toLower().substring(0, whichShip.length()).equals("carrier")) {
+      } else if (whichShip.toLowerCase().substring(0, whichShip.length()).equals("carrier")) {
         placeShipType5();
       } else {
         System.out.println("What?");
@@ -62,19 +82,22 @@ public class Battleboard {
   }
 
   public void shipPlacer(int row, int col, int shipLen, String orient) {
-    if (orient.toLower().substring(0, orient.length()).equals("horizontal")) {
-      for (int i=0; i<shipLength+1; i++) {
+    if (orient.toLowerCase().substring(0, orient.length()).equals("horizontal")) {
+      for (int i=0; i<shipLen+1; i++) {
         theBoard[row][col+i]=1;
       }
-    } else if (orient.toLower().substring(0, orient.length()).equals("vertical")) {
-      for (int i=0; i<shipLength+1; i++) {
+    } else if (orient.toLowerCase().substring(0, orient.length()).equals("vertical")) {
+      for (int i=0; i<shipLen+1; i++) {
         theBoard[row+i][col]=1;
       }
     } else {
-      boundCheck(startRow, "row", "start");
-      boundCheck(endRow, "row", "end");
-      boundCheck(startCol, "col", "start");
-      boundCheck(endCol, "col", "end");
+      /*
+      Checker.boundCheck(startRow, "row", "start");
+      Checker.boundCheck(endRow, "row", "end");
+      Checker.boundCheck(startCol, "col", "start");
+      Checker.boundCheck(endCol, "col", "end");
+      */
+      System.out.println("The hell?");
     }
   }
 
