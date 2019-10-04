@@ -45,34 +45,36 @@ public class Battleboard {
       System.out.print("Which ship would you like to place next?"+
         "\n\t1. Destroyer\n\t2. Submarine\n\t3. Cruiser\n\t4. Battlship\n\t5. Carrier\n> ");
       String whichShip = scan.next();
-      if (orient.toLower().substring(0, orient.length()).equals("destroyer")) {
-
-      } else if (orient.toLower().substring(0, orient.length()).equals("submarine")) {
-
-      } else if (orient.toLower().substring(0, orient.length()).equals("cruiser")) {
-
-      } else if (orient.toLower().substring(0, orient.length()).equals("battleship")) {
-
-      } else if (orient.toLower().substring(0, orient.length()).equals("carrier")) {
-
+      if (whichShip.toLower().substring(0, whichShip.length()).equals("destroyer")) {
+        placeShipType2();
+      } else if (whichShip.toLower().substring(0, whichShip.length()).equals("submarine")) {
+        placeSub();
+      } else if (whichShip.toLower().substring(0, whichShip.length()).equals("cruiser")) {
+        placeCruiser();
+      } else if (whichShip.toLower().substring(0, whichShip.length()).equals("battleship")) {
+        placeShipType4();
+      } else if (whichShip.toLower().substring(0, whichShip.length()).equals("carrier")) {
+        placeShipType5();
       } else {
         System.out.println("What?");
       }
     }
   }
 
-  public void shipPlacer(int shipLen, String orient) {
+  public void shipPlacer(int row, int col, int shipLen, String orient) {
     if (orient.toLower().substring(0, orient.length()).equals("horizontal")) {
       for (int i=0; i<shipLength+1; i++) {
-        theBoard[startRow][startCol+i]=1;
+        theBoard[row][col+i]=1;
       }
     } else if (orient.toLower().substring(0, orient.length()).equals("vertical")) {
       for (int i=0; i<shipLength+1; i++) {
-        theBoard[startRow+i][startCol]=1;
+        theBoard[row+i][col]=1;
       }
     } else {
-      boundsCheck(startRow, endRow);
-      boundsCheck(startCol, endCol);
+      boundCheck(startRow, "row", "start");
+      boundCheck(endRow, "row", "end");
+      boundCheck(startCol, "col", "start");
+      boundCheck(endCol, "col", "end");
     }
   }
 
@@ -88,8 +90,8 @@ public class Battleboard {
     System.out.print("\nWhich column would you like your destroyer (2 long) to go to?\n> ");
     int endCol = scan.nextInt();
 
-    shipPlacer(shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
-  }
+    shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
+  } //close placeShipType2()
 
 
   public void placeSub() {
@@ -104,7 +106,7 @@ public class Battleboard {
     System.out.print("\nWhich column would you like your submarine (3 long) to go to?\n> ");
     int endCol = scan.nextInt();
 
-    shipPlacer(shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
+    shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
   } //close placeSub()
 
   public void placeCruiser() {
@@ -119,8 +121,8 @@ public class Battleboard {
     System.out.print("\nWhich column would you like your cruiser (3 long) to go to?\n> ");
     int endCol = scan.nextInt();
 
-    shipPlacer(shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
-  }
+    shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
+  } //close placeCruiser()
 
   public void placeShipType4() {
     int shipLength=4;
@@ -134,8 +136,8 @@ public class Battleboard {
     System.out.print("\nWhich column would you like your battleship (4 long) to go to?\n> ");
     int endCol = scan.nextInt();
 
-    shipPlacer(shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
-  }
+    shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
+  } //close placeShipType4()
 
   public void placeShipType5() {
     int shipLength=5;
@@ -149,7 +151,7 @@ public class Battleboard {
     System.out.print("\nWhich column would you like your carrier (5 long) to go to?\n> ");
     int endCol = scan.nextInt();
 
-    shipPlacer(shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
-  }
+    shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
+  } //close placeShipType5()
 
 }
