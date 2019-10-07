@@ -19,20 +19,19 @@ public class Battleboard {
   } //close Battleboard()
 
   public void play(String name1, String name2) {
+    printBoard();
     placeBoats();
     ArrayList<Turn> turnList = new ArrayList<Turn>();
     int turnTracker=1;
     do {
       if (turnTracker%2==1) {
-        printBoard();
-        turnList.add(new Turn(name1, turnTracker /*,boardNum*/));
-        turnList.get(turnTracker).guess(theBoard);
+        turnList.add(new Turn(name1, turnTracker-1 /*,boardNum*/));
+        turnList.get(turnTracker-1).guess(theBoard);
         printBoard();
         turnTracker++;
       } else if (turnTracker%2==0) {
-        printBoard();
-        turnList.add(new Turn(name2, turnTracker /*, boardNum*/));
-        turnList.get(turnTracker).guess(theBoard);
+        turnList.add(new Turn(name2, turnTracker-1 /*, boardNum*/));
+        turnList.get(turnTracker-1).guess(theBoard);
         printBoard();
         turnTracker++;
       }
@@ -97,51 +96,51 @@ public class Battleboard {
 
   public void placeBoats() {
     Scanner scan = new Scanner(System.in);
-    System.out.println();
     String shipPrompt = ("Which ship would you like to place?"+
       "\n\t1. Destroyer\n\t2. Submarine\n\t3. Cruiser\n\t4. Battleship\n\t5. Carrier\n> ");
-    for (int i=0; i<6; i++) {
+    boolean[] shipsToBePlaced = {true,true,true,true,true};
+    do {
+      System.out.println("\n\033\143" + "\n\033\143");
+      printBoard();
       System.out.print(shipPrompt);
       String whichShip = scan.next();
-      if (whichShip.length()<="destroyer".length() && whichShip.toLowerCase().equals("destroyer".substring(0, whichShip.length()))) {
+      if (whichShip.length()<="destroyer".length() && (whichShip.toLowerCase().equals("destroyer".substring(0, whichShip.length())) || whichShip.equals("1"))) {
         shipPrompt = shipPrompt.replace("\n\t1. Destroyer", "");
+        shipsToBePlaced[0]=false;
         placeShipType2();
-      } else if (whichShip.length()<="submarine".length() && whichShip.toLowerCase().equals("submarine".substring(0, whichShip.length()))) {
+      } else if (whichShip.length()<="submarine".length() && (whichShip.toLowerCase().equals("submarine".substring(0, whichShip.length())) || whichShip.equals("2"))) {
         shipPrompt = shipPrompt.replace("\n\t2. Submarine", "");
+        shipsToBePlaced[1]=false;
         placeSub();
-      } else if (whichShip.length()<="cruiser".length() && whichShip.toLowerCase().equals("cruiser".substring(0, whichShip.length()))) {
+      } else if (whichShip.length()<="cruiser".length() && (whichShip.toLowerCase().equals("cruiser".substring(0, whichShip.length())) || whichShip.equals("3"))) {
         shipPrompt = shipPrompt.replace("\n\t3. Cruiser", "");
+        shipsToBePlaced[2]=false;
         placeCruiser();
-      } else if (whichShip.length()<="battleship".length() && whichShip.toLowerCase().equals("battleship".substring(0, whichShip.length()))) {
+      } else if (whichShip.length()<="battleship".length() && (whichShip.toLowerCase().equals("battleship".substring(0, whichShip.length())) || whichShip.equals("4"))) {
         shipPrompt = shipPrompt.replace("\n\t4. Battleship", "");
+        shipsToBePlaced[3]=false;
         placeShipType4();
-      } else if (whichShip.length()<="carrier".length() && whichShip.toLowerCase().equals("carrier".substring(0, whichShip.length()))) {
+      } else if (whichShip.length()<="carrier".length() && (whichShip.toLowerCase().equals("carrier".substring(0, whichShip.length())) || whichShip.equals("5"))) {
         shipPrompt = shipPrompt.replace("\n\t5. Carrier", "");
+        shipsToBePlaced[4]=false;
         placeShipType5();
       } else {
         System.out.println("What?");
-        i-=1;
       }
-    } //close for loop
+    } while (shipsToBePlaced[0] || shipsToBePlaced[1] || shipsToBePlaced[2] || shipsToBePlaced[3] || shipsToBePlaced[4]); //close while loop
   } //close placeBoats()
 
   public void shipPlacer(int row, int col, int shipLen, String orient) {
     if (orient.equals("h")) {
-      System.out.println("Placing ship horizontally...");
       for (int i=0; i<shipLen; i++) {
-        System.out.println("i is " + i);
         theBoard[row][col+i]=1;
       }
       System.out.println();
       printBoard();
     } else if (orient.equals("v")) {
-      System.out.println("Placing ship vertically...");
       for (int i=0; i<shipLen; i++) {
-        System.out.println("i is " + i);
         theBoard[row+i][col]=1;
       }
-      System.out.println();
-      printBoard();
     } else {
       /*
       Checker.boundCheck(startRow, "row", "start");
@@ -167,6 +166,36 @@ public class Battleboard {
     shipPlacer(startRow, startCol, 2, Checker.orientCheck(startRow, endRow, startCol, endCol));
   } //close placeShipType2()
 
+  public String placeShipPromptFiller(int whichShipType) {
+    if (whichShipType==1) {
+      return "destroyer (2 long)";
+    } else if (whichShipType==2) {
+      return "submarine (3 long)";
+    } else if (whichShipType==3) {
+      return "cruiser (3 long)";
+    } else if (whichShipType==4) {
+      return "battleship (4 long)";
+    } else if (whichShipType==5) {
+      return "carrier (5 long)";
+    } else {
+      return "Why";
+    }
+  } //close placeShipPromptFiller()
+
+  public void placeShipPrompt(int shipType, int shipLength) {
+    Scanner scan = new Scanner(System.in);
+    String filler = placeShipPromptFiller(shipType);
+    System.out.print("\nWhich row would you like your "+filler+" to start in?\n> ");
+    int startRow = scan.nextInt();
+    System.out.print("\nWhich column would you like your "+filler+" to start in?\n> ");
+    int startCol = scan.nextInt();
+    System.out.print("\nWhich row would you like your "+filler+" to go to?\n> ");
+    int endRow = scan.nextInt();
+    System.out.print("\nWhich column would you like your "+filler+" to go to?\n> ");
+    int endCol = scan.nextInt();
+
+    shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
+  } //close placeShipPrompt()
 
   public void placeSub() {
     Scanner scan = new Scanner(System.in);

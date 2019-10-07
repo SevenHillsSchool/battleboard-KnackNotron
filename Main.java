@@ -5,9 +5,10 @@
 import java.util.Scanner;
 
 public class Main {
+public static Battleboard board1 = new Battleboard(1);
 
 	public static void main ( String[] args) {
-			Battleboard board1 = new Battleboard(1);
+			// Battleboard board1 = new Battleboard(1);
 			// Scanner scan = new Scanner(System.in);
 	    // System.out.print("Player 1, what's your name?\n> ");
 	    // String player1 = scan.nextLine();
@@ -17,7 +18,6 @@ public class Main {
 	    // System.out.println();
 			String player1="Nick";
 			String player2="Geeeesh";
-			board1.printBoard();
 			board1.play(player1, player2);
 	}  //close main method
 
