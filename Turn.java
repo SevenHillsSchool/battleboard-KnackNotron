@@ -28,7 +28,7 @@ public class Turn {
     return colGuessed;
   }
 
-  public void honkshoe(int delayInMS) {
+  public static void honkshoe(int delayInMS) {
     try
     {
         Thread.sleep(delayInMS);

@@ -135,19 +135,11 @@ public class Battleboard {
       for (int i=0; i<shipLen; i++) {
         theBoard[row][col+i]=1;
       }
-      System.out.println();
-      printBoard();
     } else if (orient.equals("v")) {
       for (int i=0; i<shipLen; i++) {
         theBoard[row+i][col]=1;
       }
     } else {
-      /*
-      Checker.boundCheck(startRow, "row", "start");
-      Checker.boundCheck(endRow, "row", "end");
-      Checker.boundCheck(startCol, "col", "start");
-      Checker.boundCheck(endCol, "col", "end");
-      */
       System.out.println("The hell?");
     }
   }
@@ -173,12 +165,20 @@ public class Battleboard {
     String filler = placeShipPromptFiller(shipType);
     System.out.print("\nWhich row would you like your "+filler+" to start in?\n> ");
     int startRow = scan.nextInt();
+    Checker.boundCheck(startRow, "row", "start");
     System.out.print("\nWhich column would you like your "+filler+" to start in?\n> ");
     int startCol = scan.nextInt();
+    Checker.boundCheck(startCol, "col", "start");
+    System.out.println("\n\033\143" + "\n\033\143");
+    printBoard();
     System.out.print("\nWhich row would you like your "+filler+" to go to?\n> ");
     int endRow = scan.nextInt();
+    Checker.boundCheck(endRow, "row", "end");
     System.out.print("\nWhich column would you like your "+filler+" to go to?\n> ");
     int endCol = scan.nextInt();
+    Checker.boundCheck(endCol, "col", "end");
+    System.out.println("\n\033\143" + "\n\033\143");
+    printBoard();
 
     shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
   } //close placeShipPrompt()
