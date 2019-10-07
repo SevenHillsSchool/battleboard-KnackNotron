@@ -26,18 +26,18 @@ public class Checker {
         Scanner scan = new Scanner(System.in);
         System.out.print("\nValue must be between 1 and 8\n> ");
         if (startOrEnd.toLowerCase().substring(0,startOrEnd.length()).equals("start")) { //start
-          if (rowOrCol.toLowerCase().substring(0,rowOrCol.length()).equals("row")) { //row
+          if (rowOrCol.equals("row")) { //row
             System.out.print("\nWhich row would you like your ship to start in?\n> ");
             newPos = scan.nextInt();
-          } else if (rowOrCol.toLowerCase().substring(0,rowOrCol.length()).equals("column")) { //column
+          } else if (rowOrCol.equals("col")) { //column
             System.out.print("\nWhich column would you like your ship to start in?\n> ");
             newPos = scan.nextInt();
           }
         } else if (startOrEnd.toLowerCase().substring(0,startOrEnd.length()).equals("end")) { //end
-            if (rowOrCol.toLowerCase().substring(0,rowOrCol.length()).equals("row")) { //row
+            if (rowOrCol.equals("row")) { //row
               System.out.print("\nWhich row would you like your ship to end in?\n> ");
               newPos = scan.nextInt();
-            } else if (rowOrCol.toLowerCase().substring(0,rowOrCol.length()).equals("column")) { //column
+            } else if (rowOrCol.equals("col")) { //column
               System.out.print("\nWhich column would you like your ship to end in?\n> ");
               newPos = scan.nextInt();
             }
@@ -111,10 +111,13 @@ public class Checker {
 
   public static String orientCheck(int rowStart, int rowEnd, int colStart, int colEnd) {
     if ((rowStart==rowEnd) && !(colStart==colEnd)) {
-      return "v";
-    } else if ((colStart==colEnd) && !(rowStart==rowEnd)) {
+      // System.out.println("Ship is vertical!");
       return "h";
+    } else if ((colStart==colEnd) && !(rowStart==rowEnd)) {
+      // System.out.println("Ship is horizontal!");
+      return "v";
     } else {
+      // System.out.println("Ship is n!");
       return "n";
     }
   }
