@@ -107,23 +107,23 @@ public class Battleboard {
       if (whichShip.length()<="destroyer".length() && (whichShip.toLowerCase().equals("destroyer".substring(0, whichShip.length())) || whichShip.equals("1"))) {
         shipPrompt = shipPrompt.replace("\n\t1. Destroyer", "");
         shipsToBePlaced[0]=false;
-        placeShipType2();
+        placeShipPrompt(1,2);
       } else if (whichShip.length()<="submarine".length() && (whichShip.toLowerCase().equals("submarine".substring(0, whichShip.length())) || whichShip.equals("2"))) {
         shipPrompt = shipPrompt.replace("\n\t2. Submarine", "");
         shipsToBePlaced[1]=false;
-        placeSub();
+        placeShipPrompt(2,3);
       } else if (whichShip.length()<="cruiser".length() && (whichShip.toLowerCase().equals("cruiser".substring(0, whichShip.length())) || whichShip.equals("3"))) {
         shipPrompt = shipPrompt.replace("\n\t3. Cruiser", "");
         shipsToBePlaced[2]=false;
-        placeCruiser();
+        placeShipPrompt(3,3);
       } else if (whichShip.length()<="battleship".length() && (whichShip.toLowerCase().equals("battleship".substring(0, whichShip.length())) || whichShip.equals("4"))) {
         shipPrompt = shipPrompt.replace("\n\t4. Battleship", "");
         shipsToBePlaced[3]=false;
-        placeShipType4();
+        placeShipPrompt(4,4);
       } else if (whichShip.length()<="carrier".length() && (whichShip.toLowerCase().equals("carrier".substring(0, whichShip.length())) || whichShip.equals("5"))) {
         shipPrompt = shipPrompt.replace("\n\t5. Carrier", "");
         shipsToBePlaced[4]=false;
-        placeShipType5();
+        placeShipPrompt(5,5);
       } else {
         System.out.println("What?");
       }
@@ -151,20 +151,6 @@ public class Battleboard {
       System.out.println("The hell?");
     }
   }
-
-  public void placeShipType2() {
-    Scanner scan = new Scanner(System.in);
-    System.out.print("\nWhich row would you like your destroyer (2 long) to start in?\n> ");
-    int startRow = Checker.boundCheck(scan.nextInt(), "row", "start");
-    System.out.print("\nWhich column would you like your destroyer (2 long) to start in?\n> ");
-    int startCol = Checker.boundCheck(scan.nextInt(), "col", "start");
-    System.out.print("\nWhich row would you like your destroyer (2 long) to go to?\n> ");
-    int endRow = Checker.boundCheck(scan.nextInt(), "row", "end");
-    System.out.print("\nWhich column would you like your destroyer (2 long) to go to?\n> ");
-    int endCol = Checker.boundCheck(scan.nextInt(), "col", "end");
-
-    shipPlacer(startRow, startCol, 2, Checker.orientCheck(startRow, endRow, startCol, endCol));
-  } //close placeShipType2()
 
   public String placeShipPromptFiller(int whichShipType) {
     if (whichShipType==1) {
@@ -196,61 +182,5 @@ public class Battleboard {
 
     shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
   } //close placeShipPrompt()
-
-  public void placeSub() {
-    Scanner scan = new Scanner(System.in);
-    System.out.print("\nWhich row would you like your submarine (3 long) to start in?\n> ");
-    int startRow = scan.nextInt();
-    System.out.print("\nWhich column would you like your submarine (3 long) to start in?\n> ");
-    int startCol = scan.nextInt();
-    System.out.print("\nWhich row would you like your submarine (3 long) to go to?\n> ");
-    int endRow = scan.nextInt();
-    System.out.print("\nWhich column would you like your submarine (3 long) to go to?\n> ");
-    int endCol = scan.nextInt();
-
-    shipPlacer(startRow, startCol, 3, Checker.orientCheck(startRow, endRow, startCol, endCol));
-  } //close placeSub()
-
-  public void placeCruiser() {
-    Scanner scan = new Scanner(System.in);
-    System.out.print("\nWhich row would you like your cruiser (3 long) to start in?\n> ");
-    int startRow = scan.nextInt();
-    System.out.print("\nWhich column would you like your cruiser (3 long) to start in?\n> ");
-    int startCol = scan.nextInt();
-    System.out.print("\nWhich row would you like your cruiser (3 long) to go to?\n> ");
-    int endRow = scan.nextInt();
-    System.out.print("\nWhich column would you like your cruiser (3 long) to go to?\n> ");
-    int endCol = scan.nextInt();
-
-    shipPlacer(startRow, startCol, 3, Checker.orientCheck(startRow, endRow, startCol, endCol));
-  } //close placeCruiser()
-
-  public void placeShipType4() {
-    Scanner scan = new Scanner(System.in);
-    System.out.print("\nWhich row would you like your battleship (4 long) to start in?\n> ");
-    int startRow = scan.nextInt();
-    System.out.print("\nWhich column would you like your battleship (4 long) to start in?\n> ");
-    int startCol = scan.nextInt();
-    System.out.print("\nWhich row would you like your battleship (4 long) to go to?\n> ");
-    int endRow = scan.nextInt();
-    System.out.print("\nWhich column would you like your battleship (4 long) to go to?\n> ");
-    int endCol = scan.nextInt();
-
-    shipPlacer(startRow, startCol, 4, Checker.orientCheck(startRow, endRow, startCol, endCol));
-  } //close placeShipType4()
-
-  public void placeShipType5() {
-    Scanner scan = new Scanner(System.in);
-    System.out.print("\nWhich row would you like your carrier (5 long) to start in?\n> ");
-    int startRow = scan.nextInt();
-    System.out.print("\nWhich column would you like your carrier (5 long) to start in?\n> ");
-    int startCol = scan.nextInt();
-    System.out.print("\nWhich row would you like your carrier (5 long) to go to?\n> ");
-    int endRow = scan.nextInt();
-    System.out.print("\nWhich column would you like your carrier (5 long) to go to?\n> ");
-    int endCol = scan.nextInt();
-
-    shipPlacer(startRow, startCol, 5, Checker.orientCheck(startRow, endRow, startCol, endCol));
-  } //close placeShipType5()
 
 }
