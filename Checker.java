@@ -34,41 +34,52 @@ public class Checker {
 
   public static boolean lengthCheck(int startingRow, int endingRow, int startingCol, int endingCol, int shipLen) {
     String orient = orientCheck(startingRow, endingRow, startingCol, endingCol);
-    if (orient.equals("v")) {
-      if ((endingRow-startingRow)==(shipLen-1)) {
+    int shipLengthToCheck = shipLen-1;
+    if ((startingRow!=endingRow) && (startingCol!=endingCol)) {
+      System.out.println("Ship cannot be diagonal!");
+      System.out.println("Attempted ship length " + ((endingRow-startingRow) + (endingCol-startingCol)) + " actual ship length " + shipLengthToCheck);
+      Turn.honkshoe(3000);
+      return true;
+    } else if (orient.equals("v")) {
+      System.out.println("Orient is vertical");
+      System.out.println("Attempted ship length " + (endingRow-startingRow) + " actual ship length " + shipLengthToCheck);
+      if ((endingRow-startingRow)==shipLengthToCheck) {
         return false;
-      } else if ((endingRow-startingRow)>(shipLen-1)) {
+      } else if ((endingRow-startingRow)>shipLengthToCheck) {
         System.out.println("Ship is too long!");
-        Turn.honkshoe(1500);
+        Turn.honkshoe(3000);
         return true;
-      } else if ((endingRow-startingRow)<(shipLen-1)) {
+      } else if ((endingRow-startingRow)<shipLengthToCheck) {
         System.out.println("Ship is too short!");
-        Turn.honkshoe(1500);
+        Turn.honkshoe(3000);
         return true;
       } else {
         System.out.println("Something went wrong with your ship dimensions.");
-        Turn.honkshoe(1500);
+        Turn.honkshoe(3000);
         return true;
       }
     } else if (orient.equals("h")) {
-      if ((endingCol-startingCol)==(shipLen-1)) {
+      System.out.println("Orient is horizontal");
+      System.out.println("Attempted ship length " + (endingCol-startingCol) + " actual ship length " + shipLengthToCheck);
+      if ((endingCol-startingCol)==shipLengthToCheck) {
         return false;
-      } else if ((endingCol-startingCol)>(shipLen-1)) {
+      } else if ((endingCol-startingCol)>shipLengthToCheck) {
         System.out.println("Ship is too long!");
-        Turn.honkshoe(1500);
+        Turn.honkshoe(3000);
         return true;
-      } else if ((endingCol-startingCol)<(shipLen-1)) {
+      } else if ((endingCol-startingCol)<shipLengthToCheck) {
         System.out.println("Ship is too short!");
-        Turn.honkshoe(1500);
+        Turn.honkshoe(3000);
         return true;
       } else {
         System.out.println("Something went wrong with your ship dimensions.");
-        Turn.honkshoe(1500);
+        Turn.honkshoe(3000);
         return true;
       }
     } else {
       System.out.println("Something went wrong with your ship dimensions.");
-      Turn.honkshoe(1500);
+      System.out.println("Attempted ship length " + (endingCol-startingCol) + " actual ship length " + shipLengthToCheck);
+      Turn.honkshoe(3000);
       return true;
     }
   } //close boundCheck()
