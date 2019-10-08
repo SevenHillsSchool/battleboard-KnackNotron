@@ -32,6 +32,47 @@ public class Checker {
     }
   } //close boundCheck()
 
+  public static boolean lengthCheck(int startingRow, int endingRow, int startingCol, int endingCol, int shipLen) {
+    String orient = orientCheck(startingRow, endingRow, startingCol, endingCol);
+    if (orient.equals("v")) {
+      if ((endingRow-startingRow)==(shipLen-1)) {
+        return false;
+      } else if ((endingRow-startingRow)>(shipLen-1)) {
+        System.out.println("Ship is too long!");
+        Turn.honkshoe(1500);
+        return true;
+      } else if ((endingRow-startingRow)<(shipLen-1)) {
+        System.out.println("Ship is too short!");
+        Turn.honkshoe(1500);
+        return true;
+      } else {
+        System.out.println("Something went wrong with your ship dimensions.");
+        Turn.honkshoe(1500);
+        return true;
+      }
+    } else if (orient.equals("h")) {
+      if ((endingCol-startingCol)==(shipLen-1)) {
+        return false;
+      } else if ((endingCol-startingCol)>(shipLen-1)) {
+        System.out.println("Ship is too long!");
+        Turn.honkshoe(1500);
+        return true;
+      } else if ((endingCol-startingCol)<(shipLen-1)) {
+        System.out.println("Ship is too short!");
+        Turn.honkshoe(1500);
+        return true;
+      } else {
+        System.out.println("Something went wrong with your ship dimensions.");
+        Turn.honkshoe(1500);
+        return true;
+      }
+    } else {
+      System.out.println("Something went wrong with your ship dimensions.");
+      Turn.honkshoe(1500);
+      return true;
+    }
+  } //close boundCheck()
+
   public static String orientCheck(int rowStart, int rowEnd, int colStart, int colEnd) {
     if ((rowStart==rowEnd) && !(colStart==colEnd)) {
       // System.out.println("Ship is vertical!");

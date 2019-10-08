@@ -163,24 +163,32 @@ public class Battleboard {
   public void placeShipPrompt(int shipType, int shipLength) {
     Scanner scan = new Scanner(System.in);
     String filler = placeShipPromptFiller(shipType);
-    System.out.print("\nWhich row would you like your "+filler+" to start in?\n> ");
-    int startRow = scan.nextInt();
-    Checker.boundCheck(startRow, "row", "start");
-    System.out.print("\nWhich column would you like your "+filler+" to start in?\n> ");
-    int startCol = scan.nextInt();
-    Checker.boundCheck(startCol, "col", "start");
-    System.out.println("\n\033\143" + "\n\033\143");
-    printBoard();
-    System.out.print("\nWhich row would you like your "+filler+" to go to?\n> ");
-    int endRow = scan.nextInt();
-    Checker.boundCheck(endRow, "row", "end");
-    System.out.print("\nWhich column would you like your "+filler+" to go to?\n> ");
-    int endCol = scan.nextInt();
-    Checker.boundCheck(endCol, "col", "end");
-    System.out.println("\n\033\143" + "\n\033\143");
-    printBoard();
+    boolean wrongLength = true;
+    int startRow;
+    int startCol;
+    int endRow;
+    int endCol;
+    do {
+      System.out.println("\n\033\143" + "\n\033\143");
+      printBoard();
+      System.out.print("\nWhich row would you like your "+filler+" to start in?\n> ");
+      startRow = scan.nextInt();
+      Checker.boundCheck(startRow, "row", "start");
+      System.out.print("\nWhich column would you like your "+filler+" to start in?\n> ");
+      startCol = scan.nextInt();
+      Checker.boundCheck(startCol, "col", "start");
+      System.out.println("\n\033\143" + "\n\033\143");
+      printBoard();
+      System.out.print("\nWhich row would you like your "+filler+" to go to?\n> ");
+      endRow = scan.nextInt();
+      Checker.boundCheck(endRow, "row", "end");
+      System.out.print("\nWhich column would you like your "+filler+" to go to?\n> ");
+      endCol = scan.nextInt();
+      Checker.boundCheck(endCol, "col", "end");
+      wrongLength=Checker.lengthCheck(startRow, endRow, startCol, endCol, shipLength);
+    } while (wrongLength);
 
     shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol));
   } //close placeShipPrompt()
 
-}
+} //close Battleboard class
