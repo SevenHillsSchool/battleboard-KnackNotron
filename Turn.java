@@ -39,32 +39,32 @@ public class Turn {
     }
   }
 
-  public void guess(int[][] board) {
-    System.out.println("\033\143");
-    System.out.println("\033\143");
-    Main.board1.printBoard();
+  public void guess(Battleboard board) {
+    // System.out.println("\033\143");
+    // System.out.println("\033\143");
+    printBoard(board.guessBoard);
     Scanner scan = new Scanner(System.in);
     System.out.print("\nGuess a row:\n> ");
     int guessRow = scan.nextInt();
     System.out.print("\nGuess a column:\n> ");
     int guessCol = scan.nextInt();
-    if (board[guessRow][guessCol]==0) {
+    if (board.theBoard[guessRow][guessCol]==0) {
       System.out.println("\nYou missed! Darn.");
       rowGuessed=guessRow;
       colGuessed=guessCol;
-      board[guessRow][guessCol] = 3;
+      board.guessBoard[guessRow][guessCol] = 3;
       honkshoe(2000);
-    } else if (board[guessRow][guessCol]==1) {
-      System.out.println("\nIssa hit!");
+    } else if (board.theBoard[guessRow][guessCol]==1) {
+      System.out.println("\nThat\'s a hit!");
       rowGuessed=guessRow;
       colGuessed=guessCol;
-      board[guessRow][guessCol] = 4;
+      board.guessBoard[guessRow][guessCol] = 4;
       honkshoe(2000);
-    } else if (board[guessRow][guessCol]==3) {
+    } else if (board.theBoard[guessRow][guessCol]==3) {
       System.out.println("\nBruh. You already guessed that. And it was a miss. Try again.");
       honkshoe(2000);
       guess(board);
-    } else if (board[guessRow][guessCol]==4) {
+    } else if (board.theBoard[guessRow][guessCol]==4) {
       System.out.println("\nBruh. You already hit that spot. Chill. Try again.");
       honkshoe(2000);
       guess(board);

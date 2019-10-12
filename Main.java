@@ -18,7 +18,7 @@ public static Battleboard board1 = new Battleboard(1);
 	    // System.out.println();
 			String player1="Nick";
 			String player2="Geeeesh";
-			board1.play(player1, player2);
+			board1.play(player1, player2, board1);
 	}  //close main method
 
 } //close the Main class
