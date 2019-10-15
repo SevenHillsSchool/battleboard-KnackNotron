@@ -4,14 +4,12 @@ import java.util.concurrent.TimeUnit;
 public class Turn {
   String player;
   int turnNum=0;
-  // int nBoard=0;
   int rowGuessed;
   int colGuessed;
 
-  public Turn(String playerName, int turnNumber /*int ,boardNumber*/) {
+  public Turn(String playerName, int turnNumber) {
     player = playerName;
     turnNum = turnNumber;
-    // nBoard=boardNumber;
   }
 
 //Getters and setters:
@@ -39,35 +37,37 @@ public class Turn {
     }
   }
 
-  public void guess(Battleboard board) {
-    // System.out.println("\033\143");
-    // System.out.println("\033\143");
-    printBoard(board.guessBoard);
+  public void guess(int[][] theBoard, int[][] guessBoard) {
+    System.out.println("\033\143");
+    System.out.println("\033\143");
+    Battleboard.printBoard(guessBoard);
     Scanner scan = new Scanner(System.in);
     System.out.print("\nGuess a row:\n> ");
     int guessRow = scan.nextInt();
     System.out.print("\nGuess a column:\n> ");
     int guessCol = scan.nextInt();
-    if (board.theBoard[guessRow][guessCol]==0) {
+    if (theBoard[guessRow][guessCol]==0) {
       System.out.println("\nYou missed! Darn.");
       rowGuessed=guessRow;
       colGuessed=guessCol;
-      board.guessBoard[guessRow][guessCol] = 3;
+      guessBoard[guessRow][guessCol] = 3;
+      theBoard[guessRow][guessCol] = 3;
       honkshoe(2000);
-    } else if (board.theBoard[guessRow][guessCol]==1) {
+    } else if (theBoard[guessRow][guessCol]==1) {
       System.out.println("\nThat\'s a hit!");
       rowGuessed=guessRow;
       colGuessed=guessCol;
-      board.guessBoard[guessRow][guessCol] = 4;
+      guessBoard[guessRow][guessCol] = 4;
+      theBoard[guessRow][guessCol] = 4;
       honkshoe(2000);
-    } else if (board.theBoard[guessRow][guessCol]==3) {
+    } else if (theBoard[guessRow][guessCol]==3) {
       System.out.println("\nBruh. You already guessed that. And it was a miss. Try again.");
       honkshoe(2000);
-      guess(board);
-    } else if (board.theBoard[guessRow][guessCol]==4) {
+      guess(theBoard, guessBoard);
+    } else if (theBoard[guessRow][guessCol]==4) {
       System.out.println("\nBruh. You already hit that spot. Chill. Try again.");
       honkshoe(2000);
-      guess(board);
+      guess(theBoard, guessBoard);
     }
   }
 }

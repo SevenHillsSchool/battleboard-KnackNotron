@@ -36,49 +36,51 @@ public class Checker {
     String orient = orientCheck(startingRow, endingRow, startingCol, endingCol);
     int shipLengthToCheck = shipLen-1;
     if ((startingRow!=endingRow) && (startingCol!=endingCol)) {
-      System.out.println("Ship cannot be diagonal!");
-      System.out.println("Attempted ship length " + ((endingRow-startingRow) + (endingCol-startingCol)) + " actual ship length " + shipLengthToCheck);
+      System.out.println("\nShip cannot be diagonal!");
+      System.out.println("Attempted ship length: " + ((endingRow-startingRow) + (endingCol-startingCol)) + ", actual ship length: " + shipLengthToCheck + "\n");
       Turn.honkshoe(3000);
       return true;
     } else if (orient.equals("v")) {
-      System.out.println("Orient is vertical");
-      System.out.println("Attempted ship length " + (endingRow-startingRow) + " actual ship length " + shipLengthToCheck);
       if ((endingRow-startingRow)==shipLengthToCheck) {
         return false;
       } else if ((endingRow-startingRow)>shipLengthToCheck) {
         System.out.println("Ship is too long!");
+        System.out.println("\nAttempted ship length: " + ((endingRow-startingRow)+1) + ", actual ship length: " + shipLengthToCheck + "\n");
         Turn.honkshoe(3000);
         return true;
       } else if ((endingRow-startingRow)<shipLengthToCheck) {
         System.out.println("Ship is too short!");
+        System.out.println("\nAttempted ship length: " + ((endingRow-startingRow)+1) + ", actual ship length: " + shipLengthToCheck + "\n");
         Turn.honkshoe(3000);
         return true;
       } else {
         System.out.println("Something went wrong with your ship dimensions.");
+        System.out.println("\nAttempted ship length: " + ((endingRow-startingRow)+1) + ", actual ship length: " + shipLengthToCheck + "\n");
         Turn.honkshoe(3000);
         return true;
       }
     } else if (orient.equals("h")) {
-      System.out.println("Orient is horizontal");
-      System.out.println("Attempted ship length " + (endingCol-startingCol) + " actual ship length " + shipLengthToCheck);
       if ((endingCol-startingCol)==shipLengthToCheck) {
         return false;
       } else if ((endingCol-startingCol)>shipLengthToCheck) {
         System.out.println("Ship is too long!");
+        System.out.println("Attempted ship length: " + ((endingCol-startingCol)+1) + ", actual ship length: " + shipLengthToCheck + "\n");
         Turn.honkshoe(3000);
         return true;
       } else if ((endingCol-startingCol)<shipLengthToCheck) {
         System.out.println("Ship is too short!");
+        System.out.println("Attempted ship length: " + ((endingCol-startingCol)+1) + ", actual ship length: " + shipLengthToCheck + "\n");
         Turn.honkshoe(3000);
         return true;
       } else {
         System.out.println("Something went wrong with your ship dimensions.");
+        System.out.println("Attempted ship length: " + ((endingCol-startingCol)+1) + ", actual ship length: " + shipLengthToCheck + "\n");
         Turn.honkshoe(3000);
         return true;
       }
     } else {
-      System.out.println("Something went wrong with your ship dimensions.");
-      System.out.println("Attempted ship length " + (endingCol-startingCol) + " actual ship length " + shipLengthToCheck);
+      System.out.println("\nSomething went wrong with your ship dimensions.");
+      System.out.println("Attempted ship length: " + (((endingRow-startingRow)+1) + ((endingCol-startingCol)+1)) + ", actual ship length: " + shipLengthToCheck + "\n");
       Turn.honkshoe(3000);
       return true;
     }
@@ -86,13 +88,10 @@ public class Checker {
 
   public static String orientCheck(int rowStart, int rowEnd, int colStart, int colEnd) {
     if ((rowStart==rowEnd) && !(colStart==colEnd)) {
-      // System.out.println("Ship is vertical!");
       return "h";
     } else if ((colStart==colEnd) && !(rowStart==rowEnd)) {
-      // System.out.println("Ship is horizontal!");
       return "v";
     } else {
-      // System.out.println("Ship is n!");
       return "n";
     }
   }
