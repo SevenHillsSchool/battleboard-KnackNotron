@@ -46,13 +46,13 @@ public class Battleboard {
       if (turnTracker%2==1) {
         // player 1 guessing:
         turnList.add(new Turn(name1, turnTracker-1));
-        turnList.get(turnTracker-1).guess(board.playerTwoBoard, board.playerOneGuessBoard);
+        turnList.get(turnTracker-1).guess(board.playerTwoBoard, board.playerOneGuessBoard, name1);
         printBoard(board.playerOneGuessBoard);
         turnTracker++;
       } else if (turnTracker%2==0) {
         // player 2 guessing:
         turnList.add(new Turn(name2, turnTracker-1));
-        turnList.get(turnTracker-1).guess(board.playerOneBoard, board.playerTwoGuessBoard);
+        turnList.get(turnTracker-1).guess(board.playerOneBoard, board.playerTwoGuessBoard, name2);
         printBoard(board.playerTwoGuessBoard);
         turnTracker++;
       }
@@ -64,7 +64,7 @@ public class Battleboard {
       System.out.println("\n\033\143" + "\n\033\143");
       System.out.println("Congrats player one! You win!");
     } else {
-      System.out.println("What the fucc");
+      System.out.println("What");
     }
   }
 
@@ -146,7 +146,7 @@ public class Battleboard {
     Boolean[] shipsToBePlaced = {true,true,true,true,true};
     do {
       System.out.println("\n\033\143" + "\n\033\143");
-      System.out.println("Player " + playerNum + " place your ships:\n");
+      System.out.println("Player " + playerNum + ":\n");
       printBoard(board);
       System.out.print(shipPrompt);
       String whichShip = scan.next();
@@ -176,14 +176,14 @@ public class Battleboard {
     } while (!(Arrays.asList(shipsToBePlaced).stream().allMatch(val -> val == false)));
   } //close placeBoats()
 
-  public void shipPlacer(int row, int col, int shipLen, String orient, int[][] board) {
+  public void shipPlacer(int row, int col, int shipLen, String orient, int magnitude, int[][] board) {
     if (orient.equals("h")) {
       for (int i=0; i<shipLen; i++) {
-        board[row][col+i]=1;
+        board[row][col+(i*magnitude)]=1;
       }
     } else if (orient.equals("v")) {
       for (int i=0; i<shipLen; i++) {
-        board[row+i][col]=1;
+        board[row+(i*magnitude)][col]=1;
       }
     } else {
       System.out.println("The hell?");
@@ -223,6 +223,8 @@ public class Battleboard {
       System.out.print("\nWhich column would you like your "+filler+" to start in?\n> ");
       startCol = scan.nextInt();
       Checker.boundCheck(startCol, "col", "start");
+      Checker.alreadyShipThereCheck(board[startRow][startCol], "row", "start", board);
+      Checker.alreadyShipThereCheck(board[startRow][startCol], "col", "start", board);
       board[startRow][startCol]=1;
       System.out.println("\n\033\143" + "\n\033\143");
       printBoard(board);
@@ -232,10 +234,15 @@ public class Battleboard {
       System.out.print("\nWhich column would you like your "+filler+" to go to?\n> ");
       endCol = scan.nextInt();
       Checker.boundCheck(endCol, "col", "end");
+      Checker.alreadyShipThereCheck(board[endRow][endCol], "row", "end", board);
+      Checker.alreadyShipThereCheck(board[endRow][endCol], "col", "end", board);
       wrongLength=Checker.lengthCheck(startRow, endRow, startCol, endCol, shipLength);
+      if (wrongLength) {
+        board[startRow][startCol]=0;
+      }
     } while (wrongLength);
 
-    shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol), board);
+    shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol), Checker.magnitude(startRow, endRow, startCol, endCol), board);
   } //close placeShipPrompt()
 
 } //close Battleboard class
