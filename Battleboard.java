@@ -3,19 +3,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Battleboard {
-  /*
-  int[] columns = {0,1,2,3,4,5,6,7,8};
-  int[] row1 = {1,0,0,0,0,0,0,0,0};
-  int[] row2 = {2,0,0,0,0,0,0,0,0};
-  int[] row3 = {3,0,0,0,0,0,0,0,0};
-  int[] row4 = {4,0,0,0,0,0,0,0,0};
-  int[] row5 = {5,0,0,0,0,0,0,0,0};
-  int[] row6 = {6,0,0,0,0,0,0,0,0};
-  int[] row7 = {7,0,0,0,0,0,0,0,0};
-  int[] row8 = {8,0,0,0,0,0,0,0,0};
-  int[][] theBoard = {columns,row1,row2,row3,row4,row5,row6,row7,row8};
-  int[][] guessBoard = {columns,row1,row2,row3,row4,row5,row6,row7,row8};
-  */
   int boardNum;
   int[][] theBoard = new int[9][9];
   int[][] playerOneBoard = new int[9][9];
@@ -34,12 +21,11 @@ public class Battleboard {
     makeBoard(board.playerOneGuessBoard);
     makeBoard(board.playerTwoGuessBoard);
     // player one ship placing:
-    // System.out.println("Player one, place your ships.");
-    placeBoats(board.playerOneBoard, "one");
+    System.out.println("\n\033\143" + "\n\033\143");
+    placeBoats(board.playerOneBoard, "one", board.theBoard);
     // player two ship placing:
-    printBoard(board.playerTwoBoard);
-    // System.out.println("Player two, place your ships.");
-    placeBoats(board.playerTwoBoard, "two");
+    System.out.println("\n\033\143" + "\n\033\143");
+    placeBoats(board.playerTwoBoard, "two", board.theBoard);
     ArrayList<Turn> turnList = new ArrayList<Turn>();
     int turnTracker=1;
     do {
@@ -139,7 +125,7 @@ public class Battleboard {
     return onesFound;
   } //close areShipsRemaining()
 
-  public void placeBoats(int[][] board, String playerNum) {
+  public void placeBoats(int[][] board, String playerNum, int[][] theBoard) {
     Scanner scan = new Scanner(System.in);
     String shipPrompt = ("Which ship would you like to place?"+
       "\n\t1. Destroyer\n\t2. Submarine\n\t3. Cruiser\n\t4. Battleship\n\t5. Carrier\n> ");
@@ -153,37 +139,39 @@ public class Battleboard {
       if (whichShip.length()<="destroyer".length() && (whichShip.toLowerCase().equals("destroyer".substring(0, whichShip.length())) || whichShip.equals("1"))) {
         shipPrompt = shipPrompt.replace("\n\t1. Destroyer", "");
         shipsToBePlaced[0]=false;
-        placeShipPrompt(1,2,board);
+        placeShipPrompt(1,2,board,theBoard);
       } else if (whichShip.length()<="submarine".length() && (whichShip.toLowerCase().equals("submarine".substring(0, whichShip.length())) || whichShip.equals("2"))) {
         shipPrompt = shipPrompt.replace("\n\t2. Submarine", "");
         shipsToBePlaced[1]=false;
-        placeShipPrompt(2,3,board);
+        placeShipPrompt(2,3,board,theBoard);
       } else if (whichShip.length()<="cruiser".length() && (whichShip.toLowerCase().equals("cruiser".substring(0, whichShip.length())) || whichShip.equals("3"))) {
         shipPrompt = shipPrompt.replace("\n\t3. Cruiser", "");
         shipsToBePlaced[2]=false;
-        placeShipPrompt(3,3,board);
+        placeShipPrompt(3,3,board,theBoard);
       } else if (whichShip.length()<="battleship".length() && (whichShip.toLowerCase().equals("battleship".substring(0, whichShip.length())) || whichShip.equals("4"))) {
         shipPrompt = shipPrompt.replace("\n\t4. Battleship", "");
         shipsToBePlaced[3]=false;
-        placeShipPrompt(4,4,board);
+        placeShipPrompt(4,4,board,theBoard);
       } else if (whichShip.length()<="carrier".length() && (whichShip.toLowerCase().equals("carrier".substring(0, whichShip.length())) || whichShip.equals("5"))) {
         shipPrompt = shipPrompt.replace("\n\t5. Carrier", "");
         shipsToBePlaced[4]=false;
-        placeShipPrompt(5,5,board);
+        placeShipPrompt(5,5,board,theBoard);
       } else {
         System.out.println("What?");
       }
     } while (!(Arrays.asList(shipsToBePlaced).stream().allMatch(val -> val == false)));
   } //close placeBoats()
 
-  public void shipPlacer(int row, int col, int shipLen, String orient, int magnitude, int[][] board) {
+  public void shipPlacer(int row, int col, int shipLen, String orient, int magnitude, int[][] placeBoard, int[][] theBoard) {
     if (orient.equals("h")) {
       for (int i=0; i<shipLen; i++) {
-        board[row][col+(i*magnitude)]=1;
+        placeBoard[row][col+(i*magnitude)]=1;
+        theBoard[row][col+(i*magnitude)]=1;
       }
     } else if (orient.equals("v")) {
       for (int i=0; i<shipLen; i++) {
-        board[row+(i*magnitude)][col]=1;
+        placeBoard[row+(i*magnitude)][col]=1;
+        theBoard[row+(i*magnitude)][col]=1;
       }
     } else {
       System.out.println("The hell?");
@@ -206,10 +194,11 @@ public class Battleboard {
     }
   } //close placeShipPromptFiller()
 
-  public void placeShipPrompt(int shipType, int shipLength, int[][] board) {
+  public void placeShipPrompt(int shipType, int shipLength, int[][] board, int[][] theBoard) {
     Scanner scan = new Scanner(System.in);
     String filler = placeShipPromptFiller(shipType);
     boolean wrongLength = true;
+    boolean alreadyShipThere = true;
     int startRow;
     int startCol;
     int endRow;
@@ -219,30 +208,27 @@ public class Battleboard {
       printBoard(board);
       System.out.print("\nWhich row would you like your "+filler+" to start in?\n> ");
       startRow = scan.nextInt();
-      Checker.boundCheck(startRow, "row", "start");
+      startRow = Checker.boundCheck(startRow, "row", "start");
       System.out.print("\nWhich column would you like your "+filler+" to start in?\n> ");
       startCol = scan.nextInt();
-      Checker.boundCheck(startCol, "col", "start");
-      Checker.alreadyShipThereCheck(board[startRow][startCol], "row", "start", board);
-      Checker.alreadyShipThereCheck(board[startRow][startCol], "col", "start", board);
-      board[startRow][startCol]=1;
+      startCol = Checker.boundCheck(startCol, "col", "start");
+      alreadyShipThere = Checker.alreadyShipThereCheck(startRow, startCol, 0, board);
+      if (!alreadyShipThere) board[startRow][startCol]=1;
       System.out.println("\n\033\143" + "\n\033\143");
       printBoard(board);
       System.out.print("\nWhich row would you like your "+filler+" to go to?\n> ");
       endRow = scan.nextInt();
-      Checker.boundCheck(endRow, "row", "end");
+      endRow = Checker.boundCheck(endRow, "row", "end");
       System.out.print("\nWhich column would you like your "+filler+" to go to?\n> ");
       endCol = scan.nextInt();
-      Checker.boundCheck(endCol, "col", "end");
-      Checker.alreadyShipThereCheck(board[endRow][endCol], "row", "end", board);
-      Checker.alreadyShipThereCheck(board[endRow][endCol], "col", "end", board);
+      endCol = Checker.boundCheck(endCol, "col", "end");
       wrongLength=Checker.lengthCheck(startRow, endRow, startCol, endCol, shipLength);
-      if (wrongLength) {
-        board[startRow][startCol]=0;
-      }
-    } while (wrongLength);
+      if (wrongLength) board[startRow][startCol]=0;
+      alreadyShipThere = Checker.alreadyShipThereCheck(startRow, startCol, shipLength, board, Checker.orientCheck(startRow, endRow, startCol, endCol), Checker.magnitude(startRow, endRow, startCol, endCol));
+      if (alreadyShipThere) board[startRow][startCol]=0;
+    } while (wrongLength || alreadyShipThere);
 
-    shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol), Checker.magnitude(startRow, endRow, startCol, endCol), board);
+    shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol), Checker.magnitude(startRow, endRow, startCol, endCol), board, theBoard);
   } //close placeShipPrompt()
 
 } //close Battleboard class

@@ -37,37 +37,41 @@ public class Turn {
     }
   }
 
-  public void guess(int[][] theBoard, int[][] guessBoard, String playerNum) {
+  public void guess(int[][] playerBoard, int[][] guessBoard, String playerNum) {
     System.out.println("\033\143");
     System.out.println("\033\143");
+    System.out.println(playerNum + ", here is your current board:");
+    Battleboard.printBoard(playerBoard);
+    System.out.println("\n\n\n\n\n");
+    System.out.println(playerNum + ", here is your board you are guessing on:");
     Battleboard.printBoard(guessBoard);
     Scanner scan = new Scanner(System.in);
     System.out.print("\n" + playerNum + " Guess a row:\n> ");
     int guessRow = scan.nextInt();
     System.out.print("\n" + playerNum + "\nGuess a column:\n> ");
     int guessCol = scan.nextInt();
-    if (theBoard[guessRow][guessCol]==0) {
+    if (playerBoard[guessRow][guessCol]==0) {
       System.out.println("\nYou missed! Darn.");
       rowGuessed=guessRow;
       colGuessed=guessCol;
       guessBoard[guessRow][guessCol] = 3;
-      theBoard[guessRow][guessCol] = 3;
+      playerBoard[guessRow][guessCol] = 3;
       honkshoe(2000);
-    } else if (theBoard[guessRow][guessCol]==1) {
+    } else if (playerBoard[guessRow][guessCol]==1) {
       System.out.println("\nThat\'s a hit!");
       rowGuessed=guessRow;
       colGuessed=guessCol;
       guessBoard[guessRow][guessCol] = 4;
-      theBoard[guessRow][guessCol] = 4;
+      playerBoard[guessRow][guessCol] = 4;
       honkshoe(2000);
-    } else if (theBoard[guessRow][guessCol]==3) {
+    } else if (playerBoard[guessRow][guessCol]==3) {
       System.out.println("\nBruh. You already guessed that. And it was a miss. Try again.");
       honkshoe(2000);
-      guess(theBoard, guessBoard, playerNum);
-    } else if (theBoard[guessRow][guessCol]==4) {
+      guess(playerBoard, guessBoard, playerNum);
+    } else if (playerBoard[guessRow][guessCol]==4) {
       System.out.println("\nBruh. You already hit that spot. Chill. Try again.");
       honkshoe(2000);
-      guess(theBoard, guessBoard, playerNum);
+      guess(playerBoard, guessBoard, playerNum);
     }
   }
 }
