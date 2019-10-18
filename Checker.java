@@ -36,12 +36,13 @@ public class Checker {
     boolean result = false;
     if (shipLen==0) {
       if (board[row][col]==1) {
+        System.out.println("There is already a ship there!");
+        Turn.honkshoe(3000);
         result=true;
       } else {
         result=false;
       }
     } else {
-      System.out.println("\nSomething went wrong while checking if there was a ship in the way...");
       result=true;
     }
     return result;
@@ -53,6 +54,7 @@ public class Checker {
         for (int i=0; i<shipLen; i++) {
           if (board[row][col+(i*magnitude)]==1) {
             System.out.println("There is already a ship there!");
+            Turn.honkshoe(3000);
             result=true;
           } else {
             result=false;
@@ -62,13 +64,13 @@ public class Checker {
         for (int i=0; i<shipLen; i++) {
           if (board[row+(i*magnitude)][col]==1) {
             System.out.println("There is already a ship there!");
+            Turn.honkshoe(3000);
             result=true;
           } else {
             result=false;
           }
         }
       } else {
-        System.out.println("\nSomething went wrong while checking if there was a ship in the way...");
         result=true;
       }
     return result;
@@ -77,11 +79,9 @@ public class Checker {
   public static boolean lengthCheck(int startingRow, int endingRow, int startingCol, int endingCol, int shipLen) {
     String orient = orientCheck(startingRow, endingRow, startingCol, endingCol);
     int magnitude = magnitude(startingRow, endingRow, startingCol, endingCol);
-    int shipLengthToCheck = (magnitude*(shipLen-1));
-    System.out.println("Ship length is: " + shipLen + ", check length is: " + shipLengthToCheck);
     int attemptedShipLength;
     if ((startingRow!=endingRow) && (startingCol!=endingCol)) {
-      System.out.println("\nShip cannot be diagonal!");
+      System.out.println("Ship cannot be diagonal!");
       System.out.println("Attempted ship length: " + ((endingRow-startingRow) + (endingCol-startingCol)) + ", actual ship length: " + shipLen + "\n");
       Turn.honkshoe(3000);
       return true;
@@ -91,19 +91,19 @@ public class Checker {
         return false;
       } else if (attemptedShipLength>shipLen) {
         System.out.println("Ship is too long!");
-        System.out.println("\nAttempted ship length: " + attemptedShipLength + ", actual ship length: " + shipLen + "\n");
+        System.out.println("Attempted ship length: " + attemptedShipLength + ", actual ship length: " + shipLen + "\n");
         Turn.honkshoe(3000);
         return true;
       } else if (attemptedShipLength<shipLen) {
         // attemptedShipLength = (endingRow>startingRow) ? ((endingRow-startingRow)+1) : ((startingRow-endingRow)+1);
         System.out.println("Ship is too short!");
-        System.out.println("\nAttempted ship length: " + attemptedShipLength + ", actual ship length: " + shipLen + "\n");
+        System.out.println("Attempted ship length: " + attemptedShipLength + ", actual ship length: " + shipLen + "\n");
         Turn.honkshoe(3000);
         return true;
       } else {
         // attemptedShipLength = (endingRow>startingRow) ? ((endingRow-startingRow)+1) : ((startingRow-endingRow)+1);
-        System.out.println("Something went wrong with your ship dimensions.");
-        System.out.println("\nAttempted ship length: " + attemptedShipLength + ", actual ship length: " + shipLen + "\n");
+        System.out.println("Invalid ship dimensions.");
+        System.out.println("Attempted ship length: " + attemptedShipLength + ", actual ship length: " + shipLen + "\n");
         Turn.honkshoe(3000);
         return true;
       }
@@ -122,13 +122,13 @@ public class Checker {
         Turn.honkshoe(3000);
         return true;
       } else {
-        System.out.println("Something went wrong with your ship dimensions.");
+        System.out.println("Invalid ship dimensions.");
         System.out.println("Attempted ship length: " + attemptedShipLength + ", actual ship length: " + shipLen + "\n");
         Turn.honkshoe(3000);
         return true;
       }
     } else {
-      System.out.println("\nSomething went wrong with your ship dimensions.");
+      System.out.println("\nInvalid ship dimensions.");
       System.out.println("Attempted ship length: " + (((endingRow-startingRow)+magnitude) + ((endingCol-startingCol)+magnitude)) + ", actual ship length: " + shipLen + "\n");
       Turn.honkshoe(3000);
       return true;

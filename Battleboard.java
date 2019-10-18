@@ -21,10 +21,10 @@ public class Battleboard {
     makeBoard(board.playerOneGuessBoard);
     makeBoard(board.playerTwoGuessBoard);
     // player one ship placing:
-    System.out.println("\n\033\143" + "\n\033\143");
+    // System.out.println("\n\033\143" + "\n\033\143");
     placeBoats(board.playerOneBoard, "one", board.theBoard);
     // player two ship placing:
-    System.out.println("\n\033\143" + "\n\033\143");
+    // System.out.println("\n\033\143" + "\n\033\143");
     placeBoats(board.playerTwoBoard, "two", board.theBoard);
     ArrayList<Turn> turnList = new ArrayList<Turn>();
     int turnTracker=1;
@@ -44,10 +44,10 @@ public class Battleboard {
       }
     } while ((areShipsRemaining(board.playerOneBoard)>0) || (areShipsRemaining(board.playerTwoBoard)>0));
     if (areShipsRemaining(board.playerOneBoard)>0) {
-      System.out.println("\n\033\143" + "\n\033\143");
+      // System.out.println("\n\033\143" + "\n\033\143");
       System.out.println("Congrats player two! You win!");
     } else if (areShipsRemaining(board.playerTwoBoard)>0) {
-      System.out.println("\n\033\143" + "\n\033\143");
+      // System.out.println("\n\033\143" + "\n\033\143");
       System.out.println("Congrats player one! You win!");
     } else {
       System.out.println("What");
@@ -131,7 +131,7 @@ public class Battleboard {
       "\n\t1. Destroyer\n\t2. Submarine\n\t3. Cruiser\n\t4. Battleship\n\t5. Carrier\n> ");
     Boolean[] shipsToBePlaced = {true,true,true,true,true};
     do {
-      System.out.println("\n\033\143" + "\n\033\143");
+      // System.out.println("\n\033\143" + "\n\033\143");
       System.out.println("Player " + playerNum + ":\n");
       printBoard(board);
       System.out.print(shipPrompt);
@@ -198,13 +198,14 @@ public class Battleboard {
     Scanner scan = new Scanner(System.in);
     String filler = placeShipPromptFiller(shipType);
     boolean wrongLength = true;
-    boolean alreadyShipThere = true;
+    boolean alreadyShipThereInitial = true;
+    boolean alreadyShipThereFinal = true;
     int startRow;
     int startCol;
-    int endRow;
-    int endCol;
+    int endRow=-1;
+    int endCol=-1;
     do {
-      System.out.println("\n\033\143" + "\n\033\143");
+      // System.out.println("\n\033\143" + "\n\033\143");
       printBoard(board);
       System.out.print("\nWhich row would you like your "+filler+" to start in?\n> ");
       startRow = scan.nextInt();
@@ -212,23 +213,28 @@ public class Battleboard {
       System.out.print("\nWhich column would you like your "+filler+" to start in?\n> ");
       startCol = scan.nextInt();
       startCol = Checker.boundCheck(startCol, "col", "start");
-      alreadyShipThere = Checker.alreadyShipThereCheck(startRow, startCol, 0, board);
-      if (!alreadyShipThere) board[startRow][startCol]=1;
-      System.out.println("\n\033\143" + "\n\033\143");
-      printBoard(board);
-      System.out.print("\nWhich row would you like your "+filler+" to go to?\n> ");
-      endRow = scan.nextInt();
-      endRow = Checker.boundCheck(endRow, "row", "end");
-      System.out.print("\nWhich column would you like your "+filler+" to go to?\n> ");
-      endCol = scan.nextInt();
-      endCol = Checker.boundCheck(endCol, "col", "end");
-      wrongLength=Checker.lengthCheck(startRow, endRow, startCol, endCol, shipLength);
-      if (wrongLength) board[startRow][startCol]=0;
-      alreadyShipThere = Checker.alreadyShipThereCheck(startRow, startCol, shipLength, board, Checker.orientCheck(startRow, endRow, startCol, endCol), Checker.magnitude(startRow, endRow, startCol, endCol));
-      if (alreadyShipThere) board[startRow][startCol]=0;
-    } while (wrongLength || alreadyShipThere);
+      alreadyShipThereInitial = Checker.alreadyShipThereCheck(startRow, startCol, 0, board);
+      if (alreadyShipThereInitial==false) {
+        board[startRow][startCol]=1;
+        // System.out.println("\n\033\143" + "\n\033\143");
+        printBoard(board);
+        System.out.print("\nWhich row would you like your "+filler+" to go to?\n> ");
+        endRow = scan.nextInt();
+        endRow = Checker.boundCheck(endRow, "row", "end");
+        System.out.print("\nWhich column would you like your "+filler+" to go to?\n> ");
+        endCol = scan.nextInt();
+        endCol = Checker.boundCheck(endCol, "col", "end");
+        board[startRow][startCol] = 0;
+        alreadyShipThereFinal = Checker.alreadyShipThereCheck(startRow, startCol, shipLength, board, Checker.orientCheck(startRow, endRow, startCol, endCol), Checker.magnitude(startRow, endRow, startCol, endCol));
+        // if (alreadyShipThereFinal) board[startRow][startCol]=0;
+        wrongLength=Checker.lengthCheck(startRow, endRow, startCol, endCol, shipLength);
+        if (wrongLength) board[startRow][startCol]=0;
+      }
+    } while (wrongLength || alreadyShipThereFinal || alreadyShipThereInitial);
 
-    shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol), Checker.magnitude(startRow, endRow, startCol, endCol), board, theBoard);
+    if (endRow>0 && endRow<9 && endCol>0 && endCol<9) {
+      shipPlacer(startRow, startCol, shipLength, Checker.orientCheck(startRow, endRow, startCol, endCol), Checker.magnitude(startRow, endRow, startCol, endCol), board, theBoard);
+    }
   } //close placeShipPrompt()
 
 } //close Battleboard class
