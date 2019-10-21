@@ -95,13 +95,11 @@ public class Checker {
         Turn.honkshoe(3000);
         return true;
       } else if (attemptedShipLength<shipLen) {
-        // attemptedShipLength = (endingRow>startingRow) ? ((endingRow-startingRow)+1) : ((startingRow-endingRow)+1);
         System.out.println("Ship is too short!");
         System.out.println("Attempted ship length: " + attemptedShipLength + ", actual ship length: " + shipLen + "\n");
         Turn.honkshoe(3000);
         return true;
       } else {
-        // attemptedShipLength = (endingRow>startingRow) ? ((endingRow-startingRow)+1) : ((startingRow-endingRow)+1);
         System.out.println("Invalid ship dimensions.");
         System.out.println("Attempted ship length: " + attemptedShipLength + ", actual ship length: " + shipLen + "\n");
         Turn.honkshoe(3000);

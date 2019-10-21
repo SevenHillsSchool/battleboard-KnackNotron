@@ -21,10 +21,10 @@ public class Battleboard {
     makeBoard(board.playerOneGuessBoard);
     makeBoard(board.playerTwoGuessBoard);
     // player one ship placing:
-    // System.out.println("\n\033\143" + "\n\033\143");
+    System.out.println("\n\033\143" + "\n\033\143");
     placeBoats(board.playerOneBoard, "one", board.theBoard);
     // player two ship placing:
-    // System.out.println("\n\033\143" + "\n\033\143");
+    System.out.println("\n\033\143" + "\n\033\143");
     placeBoats(board.playerTwoBoard, "two", board.theBoard);
     ArrayList<Turn> turnList = new ArrayList<Turn>();
     int turnTracker=1;
@@ -32,22 +32,22 @@ public class Battleboard {
       if (turnTracker%2==1) {
         // player 1 guessing:
         turnList.add(new Turn(name1, turnTracker-1));
-        turnList.get(turnTracker-1).guess(board.playerTwoBoard, board.playerOneGuessBoard, name1);
+        turnList.get(turnTracker-1).guess(board.playerOneBoard, board.playerOneGuessBoard, board.playerTwoBoard, name1);
         printBoard(board.playerOneGuessBoard);
         turnTracker++;
       } else if (turnTracker%2==0) {
         // player 2 guessing:
         turnList.add(new Turn(name2, turnTracker-1));
-        turnList.get(turnTracker-1).guess(board.playerOneBoard, board.playerTwoGuessBoard, name2);
+        turnList.get(turnTracker-1).guess(board.playerTwoBoard, board.playerTwoGuessBoard, board.playerOneBoard, name2);
         printBoard(board.playerTwoGuessBoard);
         turnTracker++;
       }
     } while ((areShipsRemaining(board.playerOneBoard)>0) || (areShipsRemaining(board.playerTwoBoard)>0));
     if (areShipsRemaining(board.playerOneBoard)>0) {
-      // System.out.println("\n\033\143" + "\n\033\143");
+      System.out.println("\n\033\143" + "\n\033\143");
       System.out.println("Congrats player two! You win!");
     } else if (areShipsRemaining(board.playerTwoBoard)>0) {
-      // System.out.println("\n\033\143" + "\n\033\143");
+      System.out.println("\n\033\143" + "\n\033\143");
       System.out.println("Congrats player one! You win!");
     } else {
       System.out.println("What");
@@ -131,7 +131,7 @@ public class Battleboard {
       "\n\t1. Destroyer\n\t2. Submarine\n\t3. Cruiser\n\t4. Battleship\n\t5. Carrier\n> ");
     Boolean[] shipsToBePlaced = {true,true,true,true,true};
     do {
-      // System.out.println("\n\033\143" + "\n\033\143");
+      System.out.println("\n\033\143" + "\n\033\143");
       System.out.println("Player " + playerNum + ":\n");
       printBoard(board);
       System.out.print(shipPrompt);
@@ -205,7 +205,7 @@ public class Battleboard {
     int endRow=-1;
     int endCol=-1;
     do {
-      // System.out.println("\n\033\143" + "\n\033\143");
+      System.out.println("\n\033\143" + "\n\033\143");
       printBoard(board);
       System.out.print("\nWhich row would you like your "+filler+" to start in?\n> ");
       startRow = scan.nextInt();
@@ -216,7 +216,7 @@ public class Battleboard {
       alreadyShipThereInitial = Checker.alreadyShipThereCheck(startRow, startCol, 0, board);
       if (alreadyShipThereInitial==false) {
         board[startRow][startCol]=1;
-        // System.out.println("\n\033\143" + "\n\033\143");
+        System.out.println("\n\033\143" + "\n\033\143");
         printBoard(board);
         System.out.print("\nWhich row would you like your "+filler+" to go to?\n> ");
         endRow = scan.nextInt();
