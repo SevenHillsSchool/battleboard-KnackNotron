@@ -29,6 +29,9 @@ public class Battleboard {
     ArrayList<Turn> turnList = new ArrayList<Turn>();
     int turnTracker=1;
     do {
+      System.out.println(name1 + " has " + areShipsRemaining(board.playerOneBoard) + " unhit spaces remaining.");
+      System.out.println(name2 + " has " + areShipsRemaining(board.playerTwoBoard) + " unhit spaces remaining.");
+      Turn.honkshoe(1500);
       if (turnTracker%2==1) {
         // player 1 guessing:
         turnList.add(new Turn(name1, turnTracker-1));
@@ -42,13 +45,13 @@ public class Battleboard {
         printBoard(board.playerTwoGuessBoard);
         turnTracker++;
       }
-    } while ((areShipsRemaining(board.playerOneBoard)>0) || (areShipsRemaining(board.playerTwoBoard)>0));
+    } while ((areShipsRemaining(board.playerOneBoard)!=0) || (areShipsRemaining(board.playerTwoBoard)!=0));
     if (areShipsRemaining(board.playerOneBoard)>0) {
       System.out.println("\n\033\143" + "\n\033\143");
-      System.out.println("Congrats player two! You win!");
+      System.out.println("Congrats " + name2 + "! You win!");
     } else if (areShipsRemaining(board.playerTwoBoard)>0) {
       System.out.println("\n\033\143" + "\n\033\143");
-      System.out.println("Congrats player one! You win!");
+      System.out.println("Congrats " + name1 + "! You win!");
     } else {
       System.out.println("What");
     }
@@ -112,13 +115,13 @@ public class Battleboard {
 
   public int areShipsRemaining(int[][] board) {
     int onesFound=0;
-    for (int[] row : board) {
-      int checkSpot=1;
-      for (int spot : row) {
-        if (spot==1) {
+    // for (int[] row : board) {
+    for (int i=1; i<9; i++) {
+      // int checkSpot=1;
+      for (int j=1; j<9; j++) {
+        if (board[i][j]==1) {
           onesFound++;
         } else {
-
         }
       }
     }
@@ -136,28 +139,29 @@ public class Battleboard {
       printBoard(board);
       System.out.print(shipPrompt);
       String whichShip = scan.next();
-      if (whichShip.length()<="destroyer".length() && (whichShip.toLowerCase().equals("destroyer".substring(0, whichShip.length())) || whichShip.equals("1"))) {
+      if (shipPrompt.contains("Destroyer") && whichShip.length()<="destroyer".length() && (whichShip.toLowerCase().equals("destroyer".substring(0, whichShip.length())) || whichShip.equals("1"))) {
         shipPrompt = shipPrompt.replace("\n\t1. Destroyer", "");
         shipsToBePlaced[0]=false;
         placeShipPrompt(1,2,board,theBoard);
-      } else if (whichShip.length()<="submarine".length() && (whichShip.toLowerCase().equals("submarine".substring(0, whichShip.length())) || whichShip.equals("2"))) {
+      } else if (shipPrompt.contains("Submarine") && whichShip.length()<="submarine".length() && (whichShip.toLowerCase().equals("submarine".substring(0, whichShip.length())) || whichShip.equals("2"))) {
         shipPrompt = shipPrompt.replace("\n\t2. Submarine", "");
         shipsToBePlaced[1]=false;
         placeShipPrompt(2,3,board,theBoard);
-      } else if (whichShip.length()<="cruiser".length() && (whichShip.toLowerCase().equals("cruiser".substring(0, whichShip.length())) || whichShip.equals("3"))) {
+      } else if (shipPrompt.contains("Cruiser") && whichShip.length()<="cruiser".length() && (whichShip.toLowerCase().equals("cruiser".substring(0, whichShip.length())) || whichShip.equals("3"))) {
         shipPrompt = shipPrompt.replace("\n\t3. Cruiser", "");
         shipsToBePlaced[2]=false;
         placeShipPrompt(3,3,board,theBoard);
-      } else if (whichShip.length()<="battleship".length() && (whichShip.toLowerCase().equals("battleship".substring(0, whichShip.length())) || whichShip.equals("4"))) {
+      } else if (shipPrompt.contains("Battleship") && whichShip.length()<="battleship".length() && (whichShip.toLowerCase().equals("battleship".substring(0, whichShip.length())) || whichShip.equals("4"))) {
         shipPrompt = shipPrompt.replace("\n\t4. Battleship", "");
         shipsToBePlaced[3]=false;
         placeShipPrompt(4,4,board,theBoard);
-      } else if (whichShip.length()<="carrier".length() && (whichShip.toLowerCase().equals("carrier".substring(0, whichShip.length())) || whichShip.equals("5"))) {
+      } else if (shipPrompt.contains("Carrier") && whichShip.length()<="carrier".length() && (whichShip.toLowerCase().equals("carrier".substring(0, whichShip.length())) || whichShip.equals("5"))) {
         shipPrompt = shipPrompt.replace("\n\t5. Carrier", "");
         shipsToBePlaced[4]=false;
         placeShipPrompt(5,5,board,theBoard);
       } else {
-        System.out.println("What?");
+        System.out.println("You've already placed that ship. Choose a different one to place!");
+        Turn.honkshoe(1500);
       }
     } while (!(Arrays.asList(shipsToBePlaced).stream().allMatch(val -> val == false)));
   } //close placeBoats()

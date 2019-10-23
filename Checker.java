@@ -8,7 +8,7 @@ public class Checker {
       do {
         Scanner scan = new Scanner(System.in);
         System.out.println("\nValue must be between 1 and 8.");
-        if (startOrEnd.toLowerCase().substring(0,startOrEnd.length()).equals("start")) { //start
+        if (startOrEnd.equals("start")) { //start
           if (rowOrCol.equals("row")) { //row
             System.out.print("Which row would you like your ship to start in?\n> ");
             newPos = scan.nextInt();
@@ -16,7 +16,7 @@ public class Checker {
             System.out.print("Which column would you like your ship to start in?\n> ");
             newPos = scan.nextInt();
           }
-        } else if (startOrEnd.toLowerCase().substring(0,startOrEnd.length()).equals("end")) { //end
+        } else if (startOrEnd.equals("end")) { //end
             if (rowOrCol.equals("row")) { //row
               System.out.print("Which row would you like your ship to end in?\n> ");
               newPos = scan.nextInt();
@@ -24,6 +24,14 @@ public class Checker {
               System.out.print("Which column would you like your ship to end in?\n> ");
               newPos = scan.nextInt();
             }
+        } else if (startOrEnd.equals("guess")) {
+          if (rowOrCol.equals("row")) { //row
+            System.out.print("Which row would you like to guess?\n> ");
+            newPos = scan.nextInt();
+          } else if (rowOrCol.equals("col")) { //column
+            System.out.print("Which column would you like to guess?\n> ");
+            newPos = scan.nextInt();
+          }
         }
       } while (newPos>8 || newPos<1);
         return newPos;
