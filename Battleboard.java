@@ -28,12 +28,21 @@ public class Battleboard {
     placeBoats(board.playerTwoBoard, "two", board.theBoard);
     ArrayList<Turn> turnList = new ArrayList<Turn>();
     int turnTracker=1;
-    do {
+    while ((areShipsRemaining(board.playerOneBoard)>0) && (areShipsRemaining(board.playerTwoBoard)>0)) {
       System.out.println(name1 + " has " + areShipsRemaining(board.playerOneBoard) + " unhit spaces remaining.");
       System.out.println(name2 + " has " + areShipsRemaining(board.playerTwoBoard) + " unhit spaces remaining.");
       Turn.honkshoe(1500);
       if (turnTracker%2==1) {
         // player 1 guessing:
+        System.out.println("\n\033\143" + "\n\033\143");
+        System.out.println(name1 + "\'s turn in 3...");
+        Turn.honkshoe(1000);
+        System.out.println("\n\033\143" + "\n\033\143");
+        System.out.println(name1 + "\'s turn in 2...");
+        Turn.honkshoe(1000);
+        System.out.println("\n\033\143" + "\n\033\143");
+        System.out.println(name1 + "\'s turn in 1...");
+        Turn.honkshoe(1000);
         turnList.add(new Turn(name1, turnTracker-1));
         turnList.get(turnTracker-1).guess(board.playerOneBoard, board.playerOneGuessBoard, board.playerTwoBoard, name1);
         printBoard(board.playerOneGuessBoard);
@@ -45,15 +54,15 @@ public class Battleboard {
         printBoard(board.playerTwoGuessBoard);
         turnTracker++;
       }
-    } while ((areShipsRemaining(board.playerOneBoard)!=0) || (areShipsRemaining(board.playerTwoBoard)!=0));
+    }
     if (areShipsRemaining(board.playerOneBoard)>0) {
       System.out.println("\n\033\143" + "\n\033\143");
-      System.out.println("Congrats " + name2 + "! You win!");
+      System.out.println("Congrats " + name1 + "! You win!");
     } else if (areShipsRemaining(board.playerTwoBoard)>0) {
       System.out.println("\n\033\143" + "\n\033\143");
-      System.out.println("Congrats " + name1 + "! You win!");
+      System.out.println("Congrats " + name2 + "! You win!");
     } else {
-      System.out.println("What");
+      System.out.println("Something went wrong...");
     }
   }
 
