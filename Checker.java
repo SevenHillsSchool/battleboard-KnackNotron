@@ -90,8 +90,7 @@ public class Checker {
     int attemptedShipLength;
     if ((startingRow!=endingRow) && (startingCol!=endingCol)) {
       System.out.println("Ship cannot be diagonal!");
-      System.out.println("Attempted ship length: " + ((endingRow-startingRow) + (endingCol-startingCol)) + ", actual ship length: " + shipLen + "\n");
-      Turn.honkshoe(3000);
+      Turn.honkshoe(2000);
       return true;
     } else if (orient.equals("v")) {
       attemptedShipLength = (endingRow>startingRow) ? ((endingRow-startingRow)+1) : ((startingRow-endingRow)+1);

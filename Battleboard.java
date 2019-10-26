@@ -22,10 +22,10 @@ public class Battleboard {
     makeBoard(board.playerTwoGuessBoard);
     // player one ship placing:
     System.out.println("\n\033\143" + "\n\033\143");
-    placeBoats(board.playerOneBoard, "one", board.theBoard);
+    placeBoats(board.playerOneBoard, name1, board.theBoard);
     // player two ship placing:
     System.out.println("\n\033\143" + "\n\033\143");
-    placeBoats(board.playerTwoBoard, "two", board.theBoard);
+    placeBoats(board.playerTwoBoard, name2, board.theBoard);
     ArrayList<Turn> turnList = new ArrayList<Turn>();
     int turnTracker=1;
     while ((areShipsRemaining(board.playerOneBoard)>0) && (areShipsRemaining(board.playerTwoBoard)>0)) {
@@ -33,7 +33,8 @@ public class Battleboard {
       System.out.println(name2 + " has " + areShipsRemaining(board.playerTwoBoard) + " unhit spaces remaining.");
       Turn.honkshoe(1500);
       if (turnTracker%2==1) {
-        // player 1 guessing:
+      // player 1 guessing:
+        // small buffer period to allow time to switch who's looking at the screen without giving away ship locations
         System.out.println("\n\033\143" + "\n\033\143");
         System.out.println(name1 + "\'s turn in 3...");
         Turn.honkshoe(1000);
@@ -45,13 +46,21 @@ public class Battleboard {
         Turn.honkshoe(1000);
         turnList.add(new Turn(name1, turnTracker-1));
         turnList.get(turnTracker-1).guess(board.playerOneBoard, board.playerOneGuessBoard, board.playerTwoBoard, name1);
-        printBoard(board.playerOneGuessBoard);
         turnTracker++;
       } else if (turnTracker%2==0) {
-        // player 2 guessing:
+      // player 2 guessing:
+        // small buffer period to allow time to switch who's looking at the screen without giving away ship locations
+        System.out.println("\n\033\143" + "\n\033\143");
+        System.out.println(name2 + "\'s turn in 3...");
+        Turn.honkshoe(1000);
+        System.out.println("\n\033\143" + "\n\033\143");
+        System.out.println(name2 + "\'s turn in 2...");
+        Turn.honkshoe(1000);
+        System.out.println("\n\033\143" + "\n\033\143");
+        System.out.println(name2 + "\'s turn in 1...");
+        Turn.honkshoe(1000);
         turnList.add(new Turn(name2, turnTracker-1));
         turnList.get(turnTracker-1).guess(board.playerTwoBoard, board.playerTwoGuessBoard, board.playerOneBoard, name2);
-        printBoard(board.playerTwoGuessBoard);
         turnTracker++;
       }
     }
@@ -137,14 +146,14 @@ public class Battleboard {
     return onesFound;
   } //close areShipsRemaining()
 
-  public void placeBoats(int[][] board, String playerNum, int[][] theBoard) {
+  public void placeBoats(int[][] board, String player, int[][] theBoard) {
     Scanner scan = new Scanner(System.in);
     String shipPrompt = ("Which ship would you like to place?"+
       "\n\t1. Destroyer\n\t2. Submarine\n\t3. Cruiser\n\t4. Battleship\n\t5. Carrier\n> ");
     Boolean[] shipsToBePlaced = {true,true,true,true,true};
     do {
       System.out.println("\n\033\143" + "\n\033\143");
-      System.out.println("Player " + playerNum + ":\n");
+      System.out.println(player + ":\n");
       printBoard(board);
       System.out.print(shipPrompt);
       String whichShip = scan.next();
@@ -173,6 +182,10 @@ public class Battleboard {
         Turn.honkshoe(1500);
       }
     } while (!(Arrays.asList(shipsToBePlaced).stream().allMatch(val -> val == false)));
+    System.out.println("\n\033\143" + "\n\033\143");
+    System.out.println(player + ", here is your final board:\n");
+    printBoard(board);
+    Turn.honkshoe(2000);
   } //close placeBoats()
 
   public void shipPlacer(int row, int col, int shipLen, String orient, int magnitude, int[][] placeBoard, int[][] theBoard) {
@@ -187,7 +200,7 @@ public class Battleboard {
         theBoard[row+(i*magnitude)][col]=1;
       }
     } else {
-      System.out.println("The hell?");
+      System.out.println("Something went wrong...");
     }
   }
 
@@ -203,7 +216,7 @@ public class Battleboard {
     } else if (whichShipType==5) {
       return "carrier (5 long)";
     } else {
-      return "Why";
+      return "Something went wrong...";
     }
   } //close placeShipPromptFiller()
 

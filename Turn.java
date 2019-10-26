@@ -53,18 +53,22 @@ public class Turn {
     int guessCol = scan.nextInt();
     guessCol = Checker.boundCheck(guessCol, "col", "guess");
     if (otherPlayersBoard[guessRow][guessCol]==0) {
-      System.out.println("\nYou missed! Darn.");
       rowGuessed=guessRow;
       colGuessed=guessCol;
       guessBoard[guessRow][guessCol] = 3;
       otherPlayersBoard[guessRow][guessCol] = 3;
+      System.out.println("\033\143");
+      Battleboard.printBoard(guessBoard);
+      System.out.println("\nYou missed! Darn.");
       honkshoe(1500);
     } else if (otherPlayersBoard[guessRow][guessCol]==1) {
-      System.out.println("\nThat\'s a hit!");
       rowGuessed=guessRow;
       colGuessed=guessCol;
       guessBoard[guessRow][guessCol] = 4;
       otherPlayersBoard[guessRow][guessCol] = 4;
+      System.out.println("\033\143");
+      Battleboard.printBoard(guessBoard);
+      System.out.println("\nThat\'s a hit!");
       honkshoe(1500);
     } else if (otherPlayersBoard[guessRow][guessCol]==3) {
       System.out.println("\nBruh. You already guessed that. And it was a miss. Try again.");
